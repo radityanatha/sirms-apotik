@@ -7,6 +7,14 @@ const api = axios.create({
   },
 })
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
 // 📦 Obat
 export const getAllObat = () => api.get('/obat').then((res) => res.data)
 export const fetchMedicines = getAllObat // 🔁 alias untuk getAllObat, biar ga duplikat
