@@ -1,28 +1,44 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchMedicineById } from '../api/api'
+import { getObatById as fetchMedicineById } from '../api/api'
 import Loading from '../components/Loading'
 
-export default function MedicineDetail() {
+const MedicineDetail = () => {
   const { id } = useParams()
-  const [med, setMed] = useState(null)
+  const [medicine, setMedicine] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchMedicineById(id)
-      .then(setMed)
-      .finally(() => setLoading(false))
+    const fetchData = async () => {
+      try {
+        const data = await fetchMedicineById(id)
+        setMedicine(data)
+      } catch (error) {
+        console.error('Gagal memuat data obat:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
   }, [id])
 
   if (loading) return <Loading />
-  if (!med) return <p>Obat tidak ditemukan</p>
 
   return (
-    <div>
-      <h2>{med.name}</h2>
-      <p>Harga: Rp {med.price}</p>
-      <p>Stok: {med.stock}</p>
-      <p>Deskripsi: {med.description}</p>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">{medicine.nama_obat}</h1>
+      <p>
+        <strong>Kategori:</strong> {medicine.kategori?.nama_kategori || '-'}
+      </p>
+      <p>
+        <strong>Stok:</strong> {medicine.stok}
+      </p>
+      <p>
+        <strong>Harga:</strong> Rp{medicine.harga}
+      </p>
     </div>
   )
 }
+
+export default MedicineDetail

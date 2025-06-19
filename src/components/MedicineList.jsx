@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchMedicines } from '../api/api'
+import { fetchMedicines } from '../api/api' // Sudah cocok karena alias dari getAllObat
 import MedicineCard from './MedicineCard'
 import Loading from './Loading'
 
