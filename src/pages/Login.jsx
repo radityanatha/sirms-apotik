@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { login } from '../api/api'
 import logo from '../assets/logors.png'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +8,19 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+
+  // ✅ Redirect jika sudah login
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    if (user) {
+      const parsedUser = JSON.parse(user)
+      if (parsedUser.role === 'petugas') {
+        navigate('/dashboard')
+      } else {
+        navigate('/')
+      }
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,10 +33,10 @@ export default function Login() {
       if (user.role === 'petugas') {
         navigate('/dashboard')
       } else {
-        navigate('/') // default jika role tidak dikenali
+        navigate('/')
       }
     } catch (err) {
-      console.error(err) // Log the error for debugging purposes
+      console.error(err)
       setError('Login gagal. Cek email dan kata sandi Anda.')
     }
   }

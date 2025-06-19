@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -7,10 +7,13 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 
-export default function App() {
+function AppContent() {
+  const location = useLocation()
+  const isLoginPage = location.pathname === '/'
+
   return (
-    <BrowserRouter>
-      <Header />
+    <>
+      {!isLoginPage && <Header />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
@@ -23,7 +26,15 @@ export default function App() {
         />
         <Route path="/medicine/:id" element={<MedicineDetail />} />
       </Routes>
-      <Footer />
+      {!isLoginPage && <Footer />}
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   )
 }
