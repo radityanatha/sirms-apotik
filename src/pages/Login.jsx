@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { login } from '../api/api'
-import logo from '../assets/logors.png'
+import logo from 'assets/logors.png'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
