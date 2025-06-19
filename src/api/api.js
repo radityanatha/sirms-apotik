@@ -9,16 +9,13 @@ const api = axios.create({
 
 // 📦 Obat
 export const getAllObat = () => api.get('/obat').then((res) => res.data)
-
+export const fetchMedicines = getAllObat // 🔁 alias untuk getAllObat, biar ga duplikat
 export const getObatById = (id) =>
   api.get(`/obat/${id}`).then((res) => res.data)
-
 export const createObat = (payload) =>
   api.post('/obat', payload).then((res) => res.data)
-
 export const updateObat = (id, payload) =>
   api.put(`/obat/${id}`, payload).then((res) => res.data)
-
 export const deleteObat = (id) =>
   api.delete(`/obat/${id}`).then((res) => res.data)
 
@@ -31,7 +28,6 @@ export const getStokObat = () => api.get('/stok-obat').then((res) => res.data)
 
 // 🧾 Antrian & AntrianDetail
 export const getAntrian = () => api.get('/antrian').then((res) => res.data)
-
 export const getAntrianDetail = (id) =>
   api.get(`/antrian-detail/${id}`).then((res) => res.data)
 
